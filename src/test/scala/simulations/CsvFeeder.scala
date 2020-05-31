@@ -5,7 +5,7 @@ import io.gatling.http.Predef._
 
 class CsvFeeder extends Simulation {
 
-  val httpConf = http.baseUrl("http://localhost:8080/app/")
+   val httpConf = http.baseUrl("https://petstore.swagger.io/v2/pet/findByStatus?status=available")
     .header("Accept", "application/json")
 
   val csvFeeder = csv("data/gameCsvFile.csv").circular
@@ -14,12 +14,12 @@ class CsvFeeder extends Simulation {
     repeat(10) {
       feed(csvFeeder)
         .exec(http("Get specific video game")
-        .get("videogames/${gameId}")
-        .check(jsonPath("$.name").is("${gameName}"))
+        .get("")
         .check(status.is(200)))
         .pause(1)
     }
   }
+
 
   val scn = scenario("Csv Feeder test")
       .exec(getSpecificVideoGame())
